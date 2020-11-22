@@ -24,4 +24,10 @@ I also added a crouch capability. When you crouch, friction is reduced to a ridi
 
 Ducking challenge: Originally I had the down press detection in the same block as left, right, and jump. This meant you had to let go of any other button to duck and that felt awkward. So I put ducking first and gave it priority. Now you can duck, still hold left/right, and slide and then rise into a run. You can't duck and jump at the same time though. That's a thing I loved in Mario Brothers so I may see if I can get that working later.
 
+### 003 - Level jumping
 
+Added an "exit," basically following this: https://www.youtube.com/watch?v=KzLfi0r4Muw. My son designed World 1. World 2 just exists for now. For an extra bit of *je ne sais quoi*, we added a welcome message that "fades" in, and then out after a delay in World 1.
+
+Challenges: I didn't have the function signature correct for the "tween_completed" signal, so it was kind of silently failing (or maybe there was a message in the debug log and I was too dense to notice it). A quick google search cleared that up, though.
+
+Now that I'm writing this up, it occurs to me I should have linked back to level 1 to see how/if state is maintained. If I exit level 2 back to 1, do I see the welcome message again? Or is that opening tween considered done? I shall find out next time.
