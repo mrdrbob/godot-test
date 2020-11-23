@@ -36,3 +36,8 @@ Now that I'm writing this up, it occurs to me I should have linked back to level
 
 Added a background. This didn't go quite as smoothly as in the tutorial, but I probably missed a step. I'm also using a (relatively) smaller tile. I had to move it around a bit and make a few duplicates to ensure it covered the full screen. But otherwise it was remarkably easy.
 
+### 005 - A "state" machine
+
+I wanted to take a stab at controlling the character via a state machine. I looked up ways to do this in GDScript, but it felt a little heavy handed to have one script per state for what little I'd planned to do, so instead I just followed a rough pattern ("enter_state", "process_state", "exit_state") of functions instead of separate nodes. This seems to work OK. Is it the right way to do this? It was my idea, so probably not.
+
+Challenges: there are a surprising number of ways to exit a state. If walking left, how do you exit that state? Let go of the button. Oh, and walk right. And fall of the ledge. And jump. And crouch. You can't just check if the button is let go, because you can crouch and jump while holding the button. Also, in your "switchboard" state (Idle, in my case), you need to prioritize the states correctly in order so, for example, you can crouch and jump WHILE walking left/right. Also, I originally represented the player's direction as an enum, which felt more "correct," but was annoying to have "player_direction == Direction.Left" scattered around. It's a boolean state, might as well represent it as such.

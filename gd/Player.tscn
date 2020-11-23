@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://player/p1_walk01.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://player/p1_duck.png" type="Texture" id=14]
 [ext_resource path="res://player/p1_walk05.png" type="Texture" id=15]
 [ext_resource path="res://misc-gfx/bg_castle.png" type="Texture" id=16]
+[ext_resource path="res://player/p1_hurt.png" type="Texture" id=17]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -38,6 +39,11 @@ animations = [ {
 "loop": true,
 "name": "duck",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ) ],
+"loop": true,
+"name": "fall",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -51,7 +57,7 @@ script = ExtResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-animation = "duck"
+animation = "fall"
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4.20447 )
