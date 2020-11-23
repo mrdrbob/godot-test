@@ -9,9 +9,10 @@ const WALK_MAX = 600
 const GROUND_FRICTION = 0.3
 const DUCK_FRICTION = 0.98
 const AIR_FRICTION = 0.9
-const JUMP_IMPULSE = -700
+const JUMP_IMPULSE = -100
+const START_JUMP_ACC = -125
 
-enum PlayerState { Idle, Duck, Jump, Fall, Walk, Unknown }
+enum PlayerState { Idle, Duck, StartJump, Jump, Fall, FallingScared, Walk, Unknown }
 
 var motion = Vector2()
 var state = PlayerState.Unknown
@@ -28,8 +29,10 @@ func process_state():
 	match (state):
 		PlayerState.Idle: idle_process()
 		PlayerState.Fall: falling_process()
+		PlayerState.FallingScared: falling_scared_process()
 		PlayerState.Duck: duck_process()
 		PlayerState.Walk: walk_process()
+		PlayerState.StartJump: start_jump_process()
 		PlayerState.Jump: jump_process()
 		_: unknown_enter()
 
@@ -54,7 +57,7 @@ func idle_process():
 	if (Input.is_action_pressed("ui_down")):
 		duck_enter()
 	elif (Input.is_action_pressed("ui_up")):
-		jump_enter()
+		start_jump_enter()
 	elif (Input.is_action_pressed("ui_left")):
 		walk_enter(true)
 	elif (Input.is_action_pressed("ui_right")):
@@ -69,15 +72,35 @@ func idle_exit():
 # Falling state
 func falling_enter():
 	state = PlayerState.Fall
-	$Sprite.play("fall")
+	$Sprite.play("jump")
+	$FallingScaredTimer.start()
 
 func falling_process():
 	if (is_on_floor()):
 		falling_exit()
-	
-	process_air_motion()
+	elif $FallingScaredTimer.is_stopped():
+		falling_scared_enter()
+	else:
+		process_air_motion()
 
 func falling_exit():
+	$FallingScaredTimer.stop()
+	unknown_enter()
+
+
+# Falling (scared)
+func falling_scared_enter():
+	state = PlayerState.FallingScared
+	$Sprite.play("fall")
+	
+func falling_scared_process():
+	if (is_on_floor()):
+		falling_scared_exit()
+	else:
+		process_air_motion()
+
+func falling_scared_exit():
+	$FallingScaredTimer.stop()
 	unknown_enter()
 
 
@@ -121,6 +144,30 @@ func walk_process():
 		motion.x = min(WALK_MAX, motion.x + WALK_ACC)
 
 func walk_exit():
+	unknown_enter()
+
+
+
+
+# Start Jump state
+# For a moment during a start of a jump, the player can hold the up button
+# for extra height.
+
+func start_jump_enter():
+	state = PlayerState.StartJump
+	$Sprite.play("jump")
+	motion.y = JUMP_IMPULSE
+	$StartJumpTimer.start()
+
+func start_jump_process():
+	if $StartJumpTimer.is_stopped() or is_on_floor() or motion.y > 0 or !Input.is_action_pressed("ui_up"):
+		exit_jump()
+		return
+	
+	process_air_motion()
+	motion.y += START_JUMP_ACC
+
+func start_jump_exit():
 	unknown_enter()
 
 
