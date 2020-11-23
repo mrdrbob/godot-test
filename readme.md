@@ -31,3 +31,8 @@ Added an "exit," basically following this: https://www.youtube.com/watch?v=KzLfi
 Challenges: I didn't have the function signature correct for the "tween_completed" signal, so it was kind of silently failing (or maybe there was a message in the debug log and I was too dense to notice it). A quick google search cleared that up, though.
 
 Now that I'm writing this up, it occurs to me I should have linked back to level 1 to see how/if state is maintained. If I exit level 2 back to 1, do I see the welcome message again? Or is that opening tween considered done? I shall find out next time.
+
+### 004 - Parallax background
+
+Added a background. This didn't go quite as smoothly as in the tutorial, but I probably missed a step. I'm also using a (relatively) smaller tile. I had to move it around a bit and make a few duplicates to ensure it covered the full screen. But otherwise it was remarkably easy.
+

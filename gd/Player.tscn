@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://player/p1_walk01.png" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://player/p1_walk06.png" type="Texture" id=13]
 [ext_resource path="res://player/p1_duck.png" type="Texture" id=14]
 [ext_resource path="res://player/p1_walk05.png" type="Texture" id=15]
+[ext_resource path="res://misc-gfx/bg_castle.png" type="Texture" id=16]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -28,15 +29,15 @@ animations = [ {
 "name": "jump",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ) ],
-"loop": true,
-"name": "duck",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 2 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 3 ), ExtResource( 15 ), ExtResource( 13 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "walk",
 "speed": 20.0
+}, {
+"frames": [ ExtResource( 14 ) ],
+"loop": true,
+"name": "duck",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -46,11 +47,7 @@ extents = Vector2( 22.3044, 42.732 )
 extents = Vector2( 22.1933, 23.0421 )
 
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( 179.161, 233.215 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -67,3 +64,33 @@ shape = SubResource( 3 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 smoothing_enabled = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.1, 0.1 )
+motion_mirroring = Vector2( 256, 256 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 640, 640 )
+texture = ExtResource( 16 )
+
+[node name="Sprite2" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 1152, 640 )
+texture = ExtResource( 16 )
+
+[node name="Sprite3" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 128, 640 )
+texture = ExtResource( 16 )
+
+[node name="Sprite4" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 128, 128 )
+texture = ExtResource( 16 )
+
+[node name="Sprite5" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 640, 128 )
+texture = ExtResource( 16 )
+
+[node name="Sprite6" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 1152, 128 )
+texture = ExtResource( 16 )
